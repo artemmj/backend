@@ -1,12 +1,9 @@
 import os
-from os import environ
 
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = environ.get('SECRET_KEY', default='super-secret-key')
-DEBUG = bool(os.environ.get('DEBUG'))
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', default='0.0.0.0').split(' ')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='key')
+BASE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', '..')
+DEBUG = os.environ.get('DEBUG') == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='0.0.0.0').split(' ')
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -15,6 +12,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    'drf_yasg',
+    'rest_framework',
+
+    'apps.article',
 ]
 
 MIDDLEWARE = [
@@ -47,28 +49,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -77,6 +57,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+from .databases import *
