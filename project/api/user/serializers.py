@@ -1,14 +1,18 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 
 from rest_framework import serializers
 
-from apps.user.models import User
+User = get_user_model()
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     """Регистрации пользователя, создания нового."""
-    password = serializers.CharField(max_length=128, min_length=3, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
+    password = serializers.CharField(
+        max_length=128,
+        min_length=3,
+        write_only=True
+    )
+    token = serializers.CharField(max_length=255, read_only=True)  # доступен только на чтение
 
     class Meta:
         model = User

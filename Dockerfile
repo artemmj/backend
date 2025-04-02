@@ -3,7 +3,7 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 RUN apt update \
-    && apt upgrade \
+    && apt upgrade -y \
     && apt install postgresql gcc python3-dev musl-dev -y
 WORKDIR /project
 COPY requirements.txt .
